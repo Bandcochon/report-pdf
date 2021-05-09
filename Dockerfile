@@ -1,4 +1,4 @@
-FROM docker.io/python:3-slim
+FROM docker.io/python:3.9-slim
 
 WORKDIR /app
 
@@ -8,9 +8,9 @@ RUN apt-get update \
  && apt-get upgrade -y \
  && apt-get -y --no-install-recommends install \
     libcairo-gobject2 \
-    libpango1.0-0
-#    curl \
-RUN pip3 install -r requirements.txt --target=. # \
+    libpango1.0-0 \
+ && pip install -U pip \
+ && pip install -r requirements.txt --target=. \
  && apt-get -y autoremove \
  && apt-get clean
 
