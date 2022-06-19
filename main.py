@@ -19,14 +19,14 @@ logging.basicConfig(level=logging.INFO,
                     stream=sys.stdout,
                     format=default_format)
 
-L = logging.getLogger('bandcochon-report-pdf')
+logger = logging.getLogger('bandcochon-report-pdf')
 
 
 class GeneratePDFHandlerMixin(object):
     @classmethod
     def is_the_body_empty(cls, body):
         if not body:
-            L.error("No content given")
+            logger.error("No content given")
             return True
 
         return False
@@ -44,7 +44,7 @@ class GeneratePDFHandler(tornado.web.RequestHandler, GeneratePDFHandlerMixin):
     """
 
     def post(self):
-        L.info("POST - Request a new PDF")
+        logger.info("POST - Request a new PDF")
         if self.is_the_body_empty(self.request.body):
             self.write("Need content")
             self.set_status(400)
@@ -58,7 +58,7 @@ class GeneratePDFHandler(tornado.web.RequestHandler, GeneratePDFHandlerMixin):
         self.write(content)
 
         duration = (time.time() - start) / 1000
-        L.info("Done in %.2f sec." % duration)
+        logger.info("Done in %.2f sec." % duration)
 
 
 def main():
@@ -67,7 +67,7 @@ def main():
     (avoid scope pollution)
     """
 
-    L.info("Start web service")
+    logger.info("Start web service")
 
     app = tornado.web.Application([
         (r"/", GeneratePDFHandler),
